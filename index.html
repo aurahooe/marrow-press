@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Marrow — an hourly press</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor-glow" id="glow" aria-hidden="true"></div>
+
+  <header class="mast">
+    <div class="mast-left">
+      <a class="mark" href="#desk">
+        <span class="mark-dot"></span>
+        Marrow
+      </a>
+      <p class="tag">A press that resets on the hour.</p>
+    </div>
+    <nav class="mast-nav">
+      <button data-go="hour">This hour</button>
+      <button data-go="street">The street</button>
+      <button data-go="desk">Your desk</button>
+    </nav>
+    <div class="mast-right" id="authSlot">
+      <button class="ghost" id="openAuth">Sign in</button>
+    </div>
+  </header>
+
+  <section class="hour" id="hour">
+    <div class="hour-meta">
+      <span class="kicker" id="hourKicker">Edition — loading</span>
+      <span class="countdown" id="countdown">—</span>
+    </div>
+    <h1 id="hourHeadline">Waiting for the clock.</h1>
+    <p class="lede" id="hourBlurb">Every sixty minutes the masthead turns. Public writing can land here. Private writing never does.</p>
+    <article class="featured" id="featured" hidden>
+      <p class="featured-label">From the street</p>
+      <h2 id="featTitle"></h2>
+      <p id="featBody"></p>
+      <p class="by" id="featBy"></p>
+    </article>
+  </section>
+
+  <section class="street" id="street">
+    <div class="section-head">
+      <h2>The street</h2>
+      <p>Only pieces marked public. Newest first.</p>
+    </div>
+    <div class="grid" id="streetGrid"></div>
+  </section>
+
+  <section class="desk" id="desk">
+    <div class="section-head">
+      <h2>Your desk</h2>
+      <p>Signed-in work is saved. Flip the public switch if the street should see it.</p>
+    </div>
+    <div id="deskGate" class="gate">
+      <p>You need an account to keep a desk. Email magic link — no password to lose.</p>
+      <button class="solid" id="openAuth2">Open the door</button>
+    </div>
+    <form id="compose" class="compose" hidden>
+      <label>
+        Title
+        <input name="title" maxlength="120" required placeholder="A short name for the thing" />
+      </label>
+      <label>
+        Body
+        <textarea name="body" maxlength="8000" required rows="8" placeholder="Write like nobody is watching. Then decide if they are."></textarea>
+      </label>
+      <div class="row">
+        <label class="switch">
+          <input type="checkbox" name="is_public" />
+          <span>Mark public</span>
+        </label>
+        <button type="submit" class="solid">Save to the desk</button>
+      </div>
+      <p class="hint" id="composeHint"></p>
+    </form>
+    <div class="mine" id="mine"></div>
+  </section>
+
+  <footer class="foot">
+    <p>Marrow keeps accounts with Supabase Auth. Public means public. Private stays private.</p>
+    <p class="tiny">Paper, not chrome.</p>
+  </footer>
+
+  <dialog id="authModal" class="modal">
+    <form method="dialog" id="authForm">
+      <h3>Come in</h3>
+      <p>We’ll send a one-time link. Check your inbox, then come back to this tab.</p>
+      <label>
+        Email
+        <input type="email" name="email" required placeholder="you@somewhere.test" />
+      </label>
+      <div class="row">
+        <button value="cancel" class="ghost">Never mind</button>
+        <button value="default" class="solid" id="sendLink">Send the link</button>
+      </div>
+      <p class="hint" id="authHint"></p>
+    </form>
+  </dialog>
+
+  <script src="./app.js"></script>
+</body>
+</html>
